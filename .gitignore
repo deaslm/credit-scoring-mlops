@@ -1,0 +1,33 @@
+# Environnements virtuels Python
+*venv
+env/
+
+# Fichiers Python compilés
+__pycache__/
+*.py[cod]
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Données volumineuses / sensibles
+data/*
+!data/reference_sample.csv
+
+# Modèles volumineux
+models/*.pkl
+models/*.skops
+mlruns/
+mlartifacts/
+
+# Logs de production simulée
+logs/
+
+# Variables d'environnement / secrets
+.env
+
+# Fichiers système
+.DS_Store
+Thumbs.db
+
+# VS Code
+.vscode/
