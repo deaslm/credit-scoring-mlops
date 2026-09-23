@@ -1,0 +1,27 @@
+artifact_path: file:c:/Users/yavas/credit_scoring/notebooks/mlruns/1/models/m-f582bf52300f4469b68535cde2e6d10a/artifacts
+flavors:
+  lightgbm:
+    code: null
+    data: model.skops
+    lgb_version: 4.7.0
+    model_class: lightgbm.sklearn.LGBMClassifier
+    serialization_format: skops
+    skops_trusted_types:
+    - lightgbm.basic.Booster
+    - lightgbm.sklearn.LGBMRegressor
+    - collections.OrderedDict
+    - lightgbm.sklearn.LGBMClassifier
+  python_function:
+    data: model.skops
+    env:
+      conda: conda.yaml
+      virtualenv: python_env.yaml
+    loader_module: mlflow.lightgbm
+    python_version: 3.14.7
+mlflow_version: 3.15.2
+model_id: m-f582bf52300f4469b68535cde2e6d10a
+model_size_bytes: 1233734
+model_uuid: m-f582bf52300f4469b68535cde2e6d10a
+prompts: null
+run_id: 7acb5ef9fc1c4ecc9912a162f3ab1a9e
+utc_time_created: '2026-08-29 08:25:56.563446'

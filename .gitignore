@@ -15,7 +15,6 @@ data/*
 
 # Modèles volumineux
 models/*.pkl
-models/*.skops
 mlruns/
 mlartifacts/
 
