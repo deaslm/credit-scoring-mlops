@@ -18,13 +18,20 @@ def load_model():
 
 def predict(model, features: dict) -> float:
     """
-    Calcule la probabilite de défaut de paiment pour un client.
-
-    `features` est un dictionnaire {nom_feature: valeur}. On le transforme en DataFrame (format attendu par le modele), puis on recupere la probabilité
-    de la classe 1 (défaut de paiement / quel est le risque que le client ne paye pas ?).
+    Calcule la probabilite de defaut pour un client. Quel est le risque que le client ne paye pas?
+    `features` est un dictionnaire {nom_feature: valeur}. Il n'est pas necessaire de fournir les 839 features du modele : les colonnes
+    manquantes sont completées automatiquement avec NaN.
     """
+    import json
+
+    import numpy as np
     import pandas as pd
 
-    df = pd.DataFrame([features])
-    proba = model.predict_proba(df)
+    with open("models/feature_names.json") as f:
+        feature_names = json.load(f)                                             # charge la liste des 839 features
+
+    row = {name: features.get(name, np.nan) for name in feature_names}           # conserve les valeurs envoyées et complete les manquantes par NaN
+    df = pd.DataFrame([row], columns=feature_names)
+
+    proba = model.predict_proba(df)                                              # calcul et renvoie la proba de défaut de paiment
     return float(proba[0, 1])
