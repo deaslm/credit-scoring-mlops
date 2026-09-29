@@ -50,7 +50,7 @@ jobs:
         run: docker run -d -p 8000:8000 --name test-container credit-scoring-api
 
       - name: Attente du démarrage du serveur
-        run: sleep 5
+        run: sleep 15
 
       - name: Vérification que l'API répond (endpoint/health)
         run: curl --fail http://localhost:8000/health
