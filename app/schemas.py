@@ -16,7 +16,7 @@ class PredictionRequest(BaseModel):
     model_config = {
         "json_schema_extra": {
             "example": {
-                "sk_id_curr": 100002,
+                "sk_id_curr": 12,
                 "features": {                           # exemple de dictionnaire avec les features
                     "AMT_INCOME_TOTAL": 200000,
                     "AMT_CREDIT": 40000
