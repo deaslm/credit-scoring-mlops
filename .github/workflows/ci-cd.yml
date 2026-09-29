@@ -1,0 +1,60 @@
+# Pipeline CI/CD : se declenche à chaque push sur main.
+# 2 jobs enchainés : d'abord les tests, puis le build+déploiement Docker ( si les test ont réussi)
+name: CI/CD - API de credit-scoring
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    name: Tests automatisés
+    runs-on: ubuntu-latest
+    steps:
+      # Récupère le code du "dépot" sur la machine virtuelle GitHub
+      - name: Checkout du code
+        uses: actions/checkout@v4
+
+      # Installe Python sur la machine virtuelle
+      - name: Installation de Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      # Installe les dépendances du projet
+      - name: Installation des dépendances
+        run: pip install -r requirements.txt
+
+      # Lance les tests
+      - name: Execution des tests (unitaires/intégration)
+        run: python -m pytest tests/ -v
+
+  build-and-deploy:
+    name: Build Docker et déploiement
+    runs-on: ubuntu-latest
+    # Ce job ne démarre que si le job "test" a reussi
+    needs: test
+    steps:
+      - name: Checkout du code
+        uses: actions/checkout@v4
+
+      # Construit l'image Docker à partir du Dockerfile
+      - name: Construction de l'image Docker
+        run: docker build -t credit-scoring-api .
+
+      # Déploiement simulé localement (sur la machine virtuelle GitHub) :
+      # on lance le conteneur et on vérifie qu'il répond correctement (preuve que l'image construite est fonctionnelle)
+      - name: Lancement du conteneur (simulation de déploiement)
+        run: docker run -d -p 8000:8000 --name test-container credit-scoring-api
+
+      - name: Attente du démarrage du serveur
+        run: sleep 5
+
+      - name: Vérification que l'API répond (endpoint/health)
+        run: curl --fail http://localhost:8000/health
+
+      # Arret-Nettoyage : on arrete le conteneur de test, propre pour la suite.
+      - name: Arret du conteneur
+        run: docker stop test-container
