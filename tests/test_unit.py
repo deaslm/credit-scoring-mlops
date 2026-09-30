@@ -1,7 +1,7 @@
 """
 Test unitaire : verifie la fonction predict() de maniere isolée, sans passer par l'API.
 """
-from app.model import load_model, predict
+from app.model import load_model,load_feature_names,predict
 
 
 def test_predict_retourne_une_probabilite_valide():
@@ -10,7 +10,8 @@ def test_predict_retourne_une_probabilite_valide():
     independamment de l'API qui l'appelle.
     """
     model = load_model()
-    proba = predict(model, {"AMT_INCOME_TOTAL": 100000})
+    feature_names = load_feature_names()
+    proba = predict(model, feature_names, {"AMT_INCOME_TOTAL": 100000.0})
 
     assert isinstance(proba, float)
     assert 0.0 <= proba <= 1.0

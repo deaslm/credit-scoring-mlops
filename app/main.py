@@ -7,14 +7,15 @@ import time
 
 from fastapi import FastAPI, HTTPException
 
-from app.model import load_model, predict
+from app.model import load_model, load_feature_names, predict
 from app.schemas import PredictionRequest, PredictionResponse
 from app.logging_utilities import log_prediction
 
 app = FastAPI(title="API FastAPI de credit scoring")
 
-# Chargement du modèle au démarrage du serveur (pas à chaque requete)
+# Chargement du modèle et liste des features au démarrage du serveur (pas à chaque requete)
 model = load_model()
+feature_names = load_feature_names()
 
 
 @app.get("/health")
@@ -36,7 +37,7 @@ def predict_endpoint(request: PredictionRequest):                        # FastA
     erreur_survenue = None                                               # valeur initiale. Sera remplacée si une erreur est survenue dans le try
 
     try:
-        proba = predict(model, request.features)                         # renvoi une proba selon la feature recue lors de la requete
+        proba = predict(model, feature_names, request.features)          # renvoi une proba selon la feature recue lors de la requete
         decision = "refuse" if proba >= 0.5 else "accorde"               # traduit la proba en décision metier, selon le seuil optimal (0.5).
     except Exception as e:
         erreur_survenue = str(e)                                         # message d'erreur lisible, pour le log
