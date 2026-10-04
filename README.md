@@ -2,6 +2,8 @@
 
 Mise en production d'un modèle de credit scoring pour l'entreprise "Prêt à dépenser".
 
+# test demo
+
 ## Contexte
 
 Ce projet fait suite au projet "Initiez-vous au MLOps", dans lequel un modèle de scoring (LightGBM) a été entraîné, évalué et versionné avec MLflow (cf. `notebooks/` et `docs/screenshots/`).
